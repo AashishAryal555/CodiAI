@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Image from "./image/IMG_9150.png";
 
 const AboutUs = () => {
   return (
@@ -29,7 +30,7 @@ const AboutUs = () => {
             <div className="absolute -inset-4 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-[2.5rem] blur-2xl opacity-10 group-hover:opacity-40 transition-opacity duration-700"></div>
             <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#05010d]">
               <img
-                src="src/pages/image/IMG_9150.png"
+                src={Image}
                 alt="Founder"
                 className="w-full object-cover scale-110 group-hover:scale-100 transition-transform duration-1000 ease-out grayscale-[20%] group-hover:grayscale-0"
               />
