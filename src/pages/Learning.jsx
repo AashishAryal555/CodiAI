@@ -1,7 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import LoadingAnimation from "../components/Loading";
 
 const apiKey = import.meta.env.VITE_GOOGLE_API_KEY;
 const ai = new GoogleGenAI({ apiKey });
@@ -12,6 +13,14 @@ const Learning = () => {
   // I added this state just to display the response on screen
   const [aiResponse, setAiResponse] = useState(null);
 
+  useEffect(() => {
+    const localTopic = localStorage.getItem("topic");
+    console.log(localTopic, "this is local topic");
+    if (localTopic) {
+      setTopic(localTopic);
+    }
+  }, []);
+
   const handleRequest = async () => {
     if (!topic) {
       return console.log("Select topic first");
@@ -20,7 +29,7 @@ const Learning = () => {
       return console.log("type your question");
     }
 
-    localStorage.setItem("topic", JSON.stringify(topic));
+    localStorage.setItem("topic", topic);
     const currentRequest = userRequest.trim();
     setUserRequest("");
 
@@ -102,7 +111,6 @@ Remember: The entire response must strictly follow the JSON schema with both "su
 
       <div className="relative z-10 flex flex-col min-h-screen">
         <Navbar />
-
         {/* TOP RIGHT SELECTOR */}
         <div className="flex justify-end px-8 py-4">
           <div className="relative group">
@@ -120,12 +128,9 @@ Remember: The entire response must strictly follow the JSON schema with both "su
               <option value="Python">Python</option>
               <option value="HTML/CSS">HTML/CSS</option>
               <option value="Machine Learning">Machine Learning</option>
-              
-              
             </select>
           </div>
         </div>
-
         {/* CHAT / DISPLAY AREA */}
         <main className="flex-1 flex flex-col items-center px-6 py-4 overflow-y-auto">
           {!aiResponse ? (
@@ -152,7 +157,13 @@ Remember: The entire response must strictly follow the JSON schema with both "su
             </div>
           )}
         </main>
-
+        {aiResponse && (
+          <div className="flex justify-start">
+            <div className="max-w-[85%] rounded-2xl p-5 bg-zinc-900/40 border border-zinc-800 backdrop-blur-sm">
+              <LoadingAnimation />
+            </div>
+          </div>
+        )}
         {/* BOTTOM INPUT DOCK */}
         <div className="p-6 bg-black/40 backdrop-blur-md border-t border-white/5">
           <div className="max-w-4xl mx-auto relative flex items-center gap-3">
@@ -176,7 +187,6 @@ Remember: The entire response must strictly follow the JSON schema with both "su
             </button>
           </div>
         </div>
-
         <Footer />
       </div>
 
